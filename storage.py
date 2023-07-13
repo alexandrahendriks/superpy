@@ -2,6 +2,7 @@ import csv
 import pandas as pd
 from rich import print as rprint
 from date import today
+from functions_and_variables import no_data
 
 # Data
 bought_products = "bought.csv"
@@ -70,8 +71,11 @@ def sum_available(name):
 def write_storage():
     storage = get_storage()
     df = pd.DataFrame(storage)
-    new_df = df[(df.expiration_date >= today.strftime('%Y-%m-%d')) & (df.amount != 0)]
-    new_df.to_csv("storage.csv", index=False, header=True)
+    if df.empty:
+        return
+    else:
+        new_df = df[(df.expiration_date >= today.strftime('%Y-%m-%d')) & (df.amount != 0)]
+        new_df.to_csv("storage.csv", index=False, header=True)
 
 # Filters out all the products that are expired
 def show_expired_products(date=today):

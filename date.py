@@ -1,5 +1,6 @@
 from datetime import date, datetime
 from rich import print as rprint
+from functions_and_variables import can_not_set
 # Exact date and time
 date_and_time = datetime.now()
 import datetime # This import had to be under the date_and_time variable otherwhile "datetime.now()" wouldn't work.
@@ -27,7 +28,10 @@ def set_date():
 # Sets date from input into date.txt (update)
 def set_date_manually(date):
     with open(date_in_file, "w") as f:
-        f.write(date.strftime("%Y-%m-%d"))
+        if date > today:
+            rprint(can_not_set)
+        else:    
+            f.write(date.strftime("%Y-%m-%d"))
     with open(date_in_file, "r") as f:    
         for line in f:
             rprint(f"[green]Date is set to: {line}")
